@@ -1,1 +1,1 @@
-cd 03-componentes/ && npm install -g --silent @ionic/cli && npm install && npm start
+cd 03-componentes/ && npm install -g --silent @ionic/cli && npm install --silent && npm start
