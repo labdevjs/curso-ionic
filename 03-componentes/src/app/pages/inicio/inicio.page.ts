@@ -68,6 +68,11 @@ export class InicioPage implements OnInit {
       name: 'listas - Slidind',
       redirecTo: '/list'
     },
+    {
+      icon: 'reorder-four-outline',
+      name: 'listas -Reorder',
+      redirecTo: '/list-reorder'
+    },
   ];
 
   constructor() { }
