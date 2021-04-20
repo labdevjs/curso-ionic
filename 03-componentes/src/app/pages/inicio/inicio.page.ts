@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { Componente } from 'src/app/interfaces/interfaces';
+import { DataService } from 'src/app/services/data.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-inicio',
@@ -8,83 +12,13 @@ import { MenuController } from '@ionic/angular';
 })
 export class InicioPage implements OnInit {
 
-  componentes: Componente[] = [
-    {
-      icon: 'american-football',
-      name: 'Action Sheet',
-      redirecTo: '/action-sheet'
-    },
-    {
-      icon: 'storefront-outline',
-      name: 'Alert',
-      redirecTo: '/alert'
-    },
-    {
-      icon: 'beaker',
-      name: 'Avatar',
-      redirecTo: '/avatar'
-    },
-    {
-      icon: 'radio-button-on',
-      name: 'Botones y route',
-      redirecTo: '/botones'
-    },
-    {
-      icon: 'card',
-      name: 'Cards',
-      redirecTo: '/card'
-    },
-    {
-      icon: 'checkmark-circle-outline',
-      name: 'Checkbox',
-      redirecTo: '/check'
-    },
-    {
-      icon: 'calendar',
-      name: 'DateTime',
-      redirecTo: '/date-time'
-    },
-    {
-      icon: 'car',
-      name: 'Fabs',
-      redirecTo: '/fab'
-    },
-    {
-      icon: 'grid',
-      name: 'Grid - Rows',
-      redirecTo: '/grid'
-    },
-    {
-      icon: 'infinite',
-      name: 'Infinite Scroll',
-      redirecTo: '/infinite-scroll'
-    },
-    {
-      icon: 'hammer',
-      name: 'Input - Forms',
-      redirecTo: '/input'
-    },
-    {
-      icon: 'list',
-      name: 'listas - Slidind',
-      redirecTo: '/list'
-    },
-    {
-      icon: 'reorder-four-outline',
-      name: 'listas -Reorder',
-      redirecTo: '/list-reorder'
-    },
-    {
-      icon: 'refresh-circle',
-      name: 'Loading',
-      redirecTo: '/loading'
-    },
+  componentes: Observable<Componente[]>;
 
-  ];
-
-  constructor(private menuCtrl: MenuController) { }
+  constructor(private menuCtrl: MenuController,
+              private dataService: DataService) { }
 
   ngOnInit() {
+    this.componentes = this.dataService.getMenuOpts();
   }
 
   toggleMenu() {
@@ -93,8 +27,4 @@ export class InicioPage implements OnInit {
 
 }
 
-interface Componente {
-  icon: string;
-  name: string;
-  redirecTo: string;
-}
+
