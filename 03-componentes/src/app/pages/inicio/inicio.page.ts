@@ -63,6 +63,11 @@ export class InicioPage implements OnInit {
       name: 'Input - Forms',
       redirecTo: '/input'
     },
+    {
+      icon: 'list',
+      name: 'listas - Slidind',
+      redirecTo: '/list'
+    },
   ];
 
   constructor() { }
