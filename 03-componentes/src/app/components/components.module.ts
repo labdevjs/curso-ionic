@@ -9,12 +9,13 @@ import { PopinfoComponent } from './popinfo/popinfo.component';
 @NgModule({
   declarations: [
     HeaderComponent,
-    MenuComponent
+    MenuComponent,
+    PopinfoComponent
   ],
   exports: [
     HeaderComponent,
     MenuComponent,
-    //PopinfoComponent
+    PopinfoComponent
   ],
   imports: [
     CommonModule,
