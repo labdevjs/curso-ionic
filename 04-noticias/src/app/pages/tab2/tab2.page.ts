@@ -24,21 +24,27 @@ export class Tab2Page implements AfterViewInit {
   }
 
   cambioCategoria( event ) {
-    console.log(event.detail.value);
+    //console.log(event.detail.value);
     this.noticias = [];
 
     this.cargarNoticias(event.detail.value);
   }
 
-  cargarNoticias(categoria: string) {
+  cargarNoticias(categoria: string, event?) {
 
 
     this.noticiasService.getTopHeadLineCategoria(categoria)
       .subscribe(resp => {
         this.noticias.push(...resp.articles);
 
+          if (event) {
+            event.target.complete();
+          }
       });
   }
 
+  loadData(event) {
+    this.cargarNoticias( this.segment.value, event);
+  }
 
 }
