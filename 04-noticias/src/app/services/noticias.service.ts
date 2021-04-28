@@ -17,6 +17,7 @@ const headers = new HttpHeaders({
 })
 export class NoticiasService {
 
+  headLinesPage = 0;
   constructor( private http: HttpClient) { }
 
   private ejecutarQuery<T>(query: string) {
@@ -27,9 +28,11 @@ export class NoticiasService {
   }
 
   getTopHeadLines() {
+    this.headLinesPage++;
     //return this.http.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=7a3b5a8f7ccb42fd95349c113a45ee7e`)
     //return this.http.get(`https://newsapi.org/v2/everything?q=tesla&from=2021-03-27&sortBy=publishedAt&apiKey=7a3b5a8f7ccb42fd95349c113a45ee7e`);
-    //return this.ejecutarQuery<RespuestaTopHeadLines>(`top-headlines?country=us`);
+    //return this.ejecutarQuery<RespuestaTopHeadLines>(`top-headlines?country=us&page=${this.headLinesPage}`);
+
 
     return this.http.get<RespuestaTopHeadLines>('/assets/data/TopHeadLines.json').pipe(delay(1000));
   }
