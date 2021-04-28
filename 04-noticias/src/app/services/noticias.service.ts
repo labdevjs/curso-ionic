@@ -38,6 +38,6 @@ export class NoticiasService {
 
     //https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=7a3b5a8f7ccb42fd95349c113a45ee7e
     //return this.ejecutarQuery<RespuestaTopHeadLines>(`top-headlines?country=de&category=${categoria}`);
-    return this.http.get<RespuestaTopHeadLines>(`/assets/data/TopHeadLinesCategories.json`);
+    return this.http.get<RespuestaTopHeadLines>(`/assets/data/TopHeadLinesCategories.json`).pipe(delay(1000));
   }
 }
