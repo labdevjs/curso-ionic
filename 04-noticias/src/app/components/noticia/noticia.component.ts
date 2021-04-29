@@ -5,6 +5,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { DataLocalService } from 'src/app/services/data-local.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-noticia',
@@ -20,7 +21,8 @@ export class NoticiaComponent implements OnInit {
   constructor(private iab: InAppBrowser,
     private actionSheetCtrl: ActionSheetController,
     private socialSharing: SocialSharing,
-    private dataLocalService: DataLocalService) { }
+    private dataLocalService: DataLocalService,
+    private toastCtrl: ToastController) { }
 
   ngOnInit() {
     console.log('favoritos', this.enFavoritos);
@@ -43,6 +45,7 @@ export class NoticiaComponent implements OnInit {
         handler: () => {
           console.log('borrar Favorite clicked');
           this.dataLocalService.borrarNoticia(this.noticia);
+          this.presentToast("Borrado de favoritos");
         }
       };
     } else {
@@ -53,6 +56,7 @@ export class NoticiaComponent implements OnInit {
         handler: () => {
           console.log('Favorite clicked');
           this.dataLocalService.guardarNoticia(this.noticia);
+          this.presentToast("Guardado en favoritos");
         }
       };
 
@@ -85,6 +89,14 @@ export class NoticiaComponent implements OnInit {
     });
     await actionSheet.present();
 
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000
+    });
+    toast.present();
   }
 
 }
