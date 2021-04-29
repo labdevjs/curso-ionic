@@ -9,7 +9,9 @@ export class DataLocalService {
 
   noticias: Article[] = [];
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: Storage) {
+    this.cargarFavoritos();
+  }
 
   guardarNoticia(noticia: Article) {
     const existe = this.noticias.find(noti => noti.title === noticia.title);
@@ -20,7 +22,11 @@ export class DataLocalService {
     }
   }
 
-  cargarFavoritos() {
+  async cargarFavoritos() {
+    const favoritos = await this.storage.get('favoritos');
+    if (favoritos) {
+      this.noticias = favoritos;
+    }
 
   }
 }
