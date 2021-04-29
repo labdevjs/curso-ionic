@@ -15,12 +15,17 @@ export class NoticiaComponent implements OnInit {
 
   @Input() noticia: Article;
   @Input() indice: number;
-  constructor(private iab: InAppBrowser,
-              private actionSheetCtrl: ActionSheetController,
-              private socialSharing: SocialSharing,
-              private dataLocalService: DataLocalService) { }
+  @Input() enFavoritos;
 
-  ngOnInit() { }
+  constructor(private iab: InAppBrowser,
+    private actionSheetCtrl: ActionSheetController,
+    private socialSharing: SocialSharing,
+    private dataLocalService: DataLocalService) { }
+
+  ngOnInit() {
+    console.log('favoritos', this.enFavoritos);
+
+  }
 
   abrirNoticia() {
     console.log('Noticia', this.noticia.url)
@@ -28,22 +33,20 @@ export class NoticiaComponent implements OnInit {
   }
 
   async lanzarMenu() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      buttons: [
-      {
-        text: 'Compartir',
-        icon: 'share',
+    let guardarBorrarBtn;
+
+    if (this.enFavoritos) {
+      guardarBorrarBtn = {
+        text: 'Borrar Favorito',
+        icon: 'trash',
         cssClass: 'action-dark',
         handler: () => {
-          this.socialSharing.share(
-            this.noticia.title,
-            this.noticia.source.name,
-            '',
-            this.noticia.url)
-          console.log('Share clicked');
+          console.log('borrar Favorite clicked');
+          this.dataLocalService.borrarNoticia(this.noticia);
         }
-      },
-      {
+      };
+    } else {
+      guardarBorrarBtn = {
         text: 'Favorito',
         icon: 'heart',
         cssClass: 'action-dark',
@@ -51,16 +54,34 @@ export class NoticiaComponent implements OnInit {
           console.log('Favorite clicked');
           this.dataLocalService.guardarNoticia(this.noticia);
         }
-      },
-      {
-        text: 'Cancelar',
-        icon: 'close',
-        cssClass: 'action-dark',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
+      };
+
+    }
+    const actionSheet = await this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Compartir',
+          icon: 'share',
+          cssClass: 'action-dark',
+          handler: () => {
+            this.socialSharing.share(
+              this.noticia.title,
+              this.noticia.source.name,
+              '',
+              this.noticia.url)
+            console.log('Share clicked');
+          }
+        },
+        guardarBorrarBtn,
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          cssClass: 'action-dark',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
     });
     await actionSheet.present();
 
