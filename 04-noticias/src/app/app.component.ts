@@ -1,17 +1,34 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private storage: Storage) {}
+  constructor(
+    // private platform: Platform,
+    // private splashScreen: SplashScreen,
+    // private statusBar: StatusBar,
+    private storage: Storage) {
+    this.initializeApp();
+  }
 
-    async ngOnInit() {
+  async ngOnInit() {
     // If using a custom driver:
     // await this.storage.defineDriver(MyCustomDriver)
     await this.storage.create();
+  }
+
+  initializeApp() {
+    // this.platform.ready().then(() => {
+    //   this.statusBar.styleLightContent();
+    //   this.splashScreen.hide();
+    // });
   }
 }

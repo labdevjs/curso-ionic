@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Article } from 'src/app/interfaces/interfaces';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, Platform } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { DataLocalService } from 'src/app/services/data-local.service';
 import { ToastController } from '@ionic/angular';
@@ -22,7 +22,8 @@ export class NoticiaComponent implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private socialSharing: SocialSharing,
     private dataLocalService: DataLocalService,
-    private toastCtrl: ToastController) { }
+    private toastCtrl: ToastController,
+    private platform: Platform) { }
 
   ngOnInit() {
     console.log('favoritos', this.enFavoritos);
@@ -68,12 +69,8 @@ export class NoticiaComponent implements OnInit {
           icon: 'share',
           cssClass: 'action-dark',
           handler: () => {
-            this.socialSharing.share(
-              this.noticia.title,
-              this.noticia.source.name,
-              '',
-              this.noticia.url)
             console.log('Share clicked');
+            this.compartirNoticia();
           }
         },
         guardarBorrarBtn,
@@ -97,6 +94,30 @@ export class NoticiaComponent implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  compartirNoticia() {
+
+    if (this.platform.is('cordova')) {
+      this.socialSharing.share(
+        this.noticia.title,
+        this.noticia.source.name,
+        '',
+        this.noticia.url)
+    } else {
+      if (navigator['share']) {
+        navigator['share']({
+          title: this.noticia.title,
+          text: this.noticia.description,
+          url: this.noticia.url
+        })
+          .then(() => console.log('Share was successful.'))
+          .catch((error) => console.log('Sharing failed', error));
+      } else {
+        console.log(`Your system doesn't support sharing files.`);
+      }
+    }
+
   }
 
 }
