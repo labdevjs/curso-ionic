@@ -8,7 +8,8 @@
     </ion-row>
   </ion-grid>
   <app-slideshow-back-drop [peliculas]="peliculasRecientes"></app-slideshow-back-drop>
-    <ion-grid fixed>
+
+  <ion-grid fixed>
     <ion-row>
       <ion-col>
         <h3>Cartelera</h3>
@@ -17,5 +18,15 @@
   </ion-grid>
 
   <app-slideshow-poster [peliculas]="peliculasRecientes"></app-slideshow-poster>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <h3>Populares</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-slideshow-poster [peliculas]="populares"></app-slideshow-poster>
 
 </ion-content>
