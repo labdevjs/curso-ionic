@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MoviesService } from '../services/movies.service';
 
 @Component({
   selector: 'app-tab2',
@@ -8,17 +9,21 @@ import { Component } from '@angular/core';
 export class Tab2Page {
 
   textoBuscar = '';
-  ideas: string[]= ['Spiderman','Avenger','El señor de los anillos', 'La vida es bella'];
+  ideas: string[] = ['Spiderman', 'Avenger', 'El señor de los anillos', 'La vida es bella'];
 
-  constructor() {}
+  constructor(private movieService: MoviesService) { }
 
-  buscar(event){
+  buscar(event) {
     const valor = event.detail.value;
     console.log(valor);
+    this.movieService.buscarPelicula(valor)
+      .subscribe(resp => {
+        console.log(resp);
+      });
 
   }
 
-  buscarIdeas(idea: string){
+  buscarIdeas(idea: string) {
     this.textoBuscar = idea;
   }
 
