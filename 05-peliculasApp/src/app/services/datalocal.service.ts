@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { PeliculaDetalle } from '../interfaces/interfaces';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class DatalocalService {
 
   private _storage: Storage | null = null;
 
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage,
+    private toastCtrl: ToastController) {
     this.init();
   }
 
@@ -28,10 +30,36 @@ export class DatalocalService {
   }
 
   guardarPelicula(pelicula: PeliculaDetalle) {
-    this.peliculas.push(pelicula);
+
+    let existe = false;
+    let mensaje = '';
+
+    for (const peli of this.peliculas) {
+      if (peli.id === pelicula.id) {
+        existe = true;
+        break;
+      }
+    }
+
+    if (existe) {
+      this.peliculas = this.peliculas.filter(peli => peli.id !== pelicula.id);
+      mensaje = 'Borrado de favoritos';
+    } else {
+      this.peliculas.push(pelicula);
+      mensaje = 'Añadida a favoritos';
+    }
 
     this.set('peliculas', this.peliculas);
+    this.presentToast(mensaje);
 
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 1500
+    });
+    toast.present();
   }
 
 }
