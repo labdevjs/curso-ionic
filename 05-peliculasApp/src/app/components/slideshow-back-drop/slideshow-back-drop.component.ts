@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Pelicula } from 'src/app/interfaces/interfaces';
+import { ModalController } from '@ionic/angular';
+import { DetalleComponent } from '../detalle/detalle.component';
 
 @Component({
   selector: 'app-slideshow-back-drop',
@@ -11,12 +13,23 @@ export class SlideshowBackDropComponent implements OnInit {
   @Input() peliculas: Pelicula[] = [];
 
   slidesOpts = {
-    slidesPerView: 1.2,
+    slidesPerView: 1.3,
     freeMode: true
   }
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  async verDetalle(id: string) {
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: {
+        id
+      }
+    });
+
+    modal.present();
+  }
 
 }
