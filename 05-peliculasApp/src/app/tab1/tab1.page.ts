@@ -17,14 +17,23 @@ export class Tab1Page implements OnInit {
   ngOnInit(): void {
     this.moviesService.getFeatures()
       .subscribe(resp => {
-        console.log('Resp', resp);
+        //console.log('Resp', resp);
         this.peliculasRecientes = resp.results;
       });
 
+    this.getPopulares();
+  }
+
+  cargarMas() {
+    this.getPopulares();
+  }
+
+  getPopulares() {
     this.moviesService.getPopulares()
       .subscribe(resp => {
-        console.log();
-        this.populares = resp.results;
+        //console.log('populares',resp.results);
+        const arrTEmp = [...this.populares, ...resp.results];
+        this.populares = arrTEmp;
       });
   }
 
