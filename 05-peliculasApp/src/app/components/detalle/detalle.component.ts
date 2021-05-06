@@ -23,12 +23,16 @@ export class DetalleComponent implements OnInit {
     spaceBetween: 0
   };
 
+  iconFavorito = 'star-outline';
+
   constructor(private moviesService: MoviesService,
     private modalCtrl: ModalController,
     private dataLocal: DatalocalService) { }
 
   ngOnInit() {
-    console.log(this.id);
+    //console.log(this.id);
+    this.dataLocal.existePelicula( this.id)
+      .then( existe => this.iconFavorito = (existe) ? 'star': 'start-half-outline');
 
     this.moviesService.getPeliculaDetalle(this.id)
       .subscribe(resp => {
@@ -52,7 +56,9 @@ export class DetalleComponent implements OnInit {
   }
 
   favorito() {
-    this.dataLocal.guardarPelicula(this.pelicula);
+    const existe = this.dataLocal.guardarPelicula(this.pelicula);
+    this.iconFavorito = (existe) ? 'star': 'start-half-outline';
+
   }
 
 }

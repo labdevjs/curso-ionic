@@ -4,4 +4,4 @@ cd 04-noticias && npm install -g --silent @ionic/cli && npm install -g @angular/
 
 npm install -g firebase-tools
 
-cd 05-peliculasApp && npm install -g --silent @ionic/cli @angular/cli cordova && npm install --silent && npm start --silent
+cd 05-peliculasApp && npm install -g --silent @ionic/cli && npm install -g --silent @angular/cli && npm install -g --silent cordova && npm install --silent && npm start --silent

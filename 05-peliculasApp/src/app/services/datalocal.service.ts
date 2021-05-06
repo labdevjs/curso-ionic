@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { PeliculaDetalle } from '../interfaces/interfaces';
 import { ToastController } from '@ionic/angular';
+import { PreloadingStrategy } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class DatalocalService {
   constructor(private storage: Storage,
     private toastCtrl: ToastController) {
     this.init();
+    this.cargarFavoritos();
   }
 
   async init() {
@@ -52,6 +54,8 @@ export class DatalocalService {
     this.set('peliculas', this.peliculas);
     this.presentToast(mensaje);
 
+    return !existe;
+
   }
 
   async presentToast(message) {
@@ -60,6 +64,21 @@ export class DatalocalService {
       duration: 1500
     });
     toast.present();
+  }
+
+  async cargarFavoritos() {
+    const peliculas = await this.storage.get('peliculas');
+    this.peliculas = peliculas || [];
+    return this.peliculas;
+
+  }
+
+  async existePelicula(id) {
+
+    await this.cargarFavoritos();
+    const existe = this.peliculas.find(peli => peli.id === id);
+
+    return (existe) ? true: false;
   }
 
 }
